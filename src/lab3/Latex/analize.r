@@ -1,0 +1,14 @@
+data2analyze <- read.csv('data-cp-c1.csv', TRUE)
+library(ggplot2)
+
+ggplot() +
+    geom_point(aes(x = data2analyze$x_axis, y = data2analyze$y_axis), colour = 'red') +
+#geom_line(aes(x = data2analyze$iter, y = data2analyze$time_2),colour = 'green') +
+    ggtitle('X vs Y axis') +
+    xlab('X axis') +
+    ylab('Y axis') +
+    theme_bw() +
+    theme(plot.title = element_text(hjust = 0.5), panel.border = element_blank(), panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))
+#mean(data2analyze$iter_converged)
+

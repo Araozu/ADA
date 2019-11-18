@@ -1,0 +1,13 @@
+# Laboratorio 4 - ADA
+
+El presente código corresponde al laboratorio 4. Como fue mencionado en el reporte, el problema se
+resolvió usando Kotlin (https://kotlinlang.org/), y luego fue traducido a Java.
+
+Los archivos de Java se encuentran el la carpeta con el mismo nombre, mientras que los archivos en
+este directorio son de Kotlin. La función main se encuentra en Visual.kt.
+
+El programa se creó en Linux (Manjaro 17), y por alguna razón no siempre funciona. Sospecho que esto
+se debe a la librería gráfica, pues no hay excepcion que se lance.
+
+Si por cualquier razón alguna parte no funciona, el archivo Visual.jar se encuentra compilado y
+funcionando. Y si eso no funciona, no se para qué existe la JVM ;)

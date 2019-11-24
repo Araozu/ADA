@@ -2,14 +2,18 @@ package lab4
 
 import java.awt.Color
 import java.awt.GridLayout
+import java.util.*
 import javax.swing.BorderFactory
 import javax.swing.JButton
 import javax.swing.JFrame
-import javax.swing.SwingWorker
 
 class Panel(stepTime: Int, numElems: Int) : JFrame("Visualization") {
 
-    private val elems = Array(numElems) { it + 1 } // { (Math.random() * 58).toInt() + 2}
+    private val elems = {
+        val elems = (Array(numElems) { it + 1 }) // { (Math.random() * 58).toInt() + 2}
+        shuffleArray(elems)
+        elems
+    }()
 
     init {
         this.layout = GridLayout(0, 2, 20, 20)
@@ -42,30 +46,22 @@ class Panel(stepTime: Int, numElems: Int) : JFrame("Visualization") {
         startButton.addActionListener {
 
             val t1 = Thread {
-                panel1.shuffleArray()
-                panel1.finaliseUpdate(1000)
                 panel1.sortAsync(InsertionSort(panel1Elems))
             }
             t1.start()
 
             val t2 = Thread {
-                panel2.shuffleArray()
-                panel2.finaliseUpdate(1000)
                 panel2.sortAsync(BubbleSort(panel2Elems))
             }
             t2.start()
 
             val t3 = Thread {
-                panel3.shuffleArray()
-                panel3.finaliseUpdate(1000)
                 panel3.sortAsync(SelectionSort(panel3Elems))
             }
             t3.start()
 
             val t4 = Thread {
-                panel4.shuffleArray()
-                panel4.finaliseUpdate(1000)
-                panel4.sortAsync(MergeSort2(panel4Elems))
+                panel4.sortAsync(MergeSort(panel4Elems))
             }
             t4.start()
 
@@ -78,5 +74,19 @@ class Panel(stepTime: Int, numElems: Int) : JFrame("Visualization") {
         add(startButton)
 
     }
+
+    private fun shuffleArray(elems: Array<Int>) {
+        val rn = Random()
+        for (i in elems.indices) {
+            swap(elems, rn.nextInt(elems.size - 1), i)
+        }
+    }
+
+    private fun swap(elems: Array<Int>, pos1: Int, pos2: Int) {
+        val temp = elems[pos1]
+        elems[pos1] = elems[pos2]
+        elems[pos2] = temp
+    }
+
 
 }

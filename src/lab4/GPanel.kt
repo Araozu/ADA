@@ -11,18 +11,14 @@ class GPanel(private val elems: Array<Int>, val stepTime: Int) : JPanel() {
 
     private var heightRatio = this.height / elems.size.toDouble()
     private var widthRatio = this.width / elems.size.toDouble()
+    private var actualPos = 0;
 
-    private fun doRepaint() {
-        this.repaint()
+    private fun doRepaint(actualPos: Int) {
+        this.actualPos = actualPos
+        finaliseUpdate(stepTime.toLong())
     }
 
-    private fun swap(pos1: Int, pos2: Int) {
-        val temp = elems[pos1]
-        elems[pos1] = elems[pos2]
-        elems[pos2] = temp
-    }
-
-    fun finaliseUpdate(millisecondDelay: Long) {
+    private fun finaliseUpdate(millisecondDelay: Long) {
         repaint()
         try {
             Thread.sleep(millisecondDelay)
@@ -34,18 +30,9 @@ class GPanel(private val elems: Array<Int>, val stepTime: Int) : JPanel() {
     fun sortAsync(algo: SortAlgorithm) {
 
         while (!algo.isSorted()) {
-            algo.step(::doRepaint)
-            finaliseUpdate(stepTime.toLong())
+            algo.run(::doRepaint)
         }
 
-    }
-
-    fun shuffleArray() {
-        val rn = Random()
-        for (i in elems.indices) {
-            swap(rn.nextInt(elems.size - 1), i)
-        }
-        this.repaint()
     }
 
     private fun drawLines(ga: Graphics2D) {
@@ -63,7 +50,7 @@ class GPanel(private val elems: Array<Int>, val stepTime: Int) : JPanel() {
                     elemHeight
             )
             ga.draw(actualSquare)
-            ga.color = Color.BLACK
+            ga.color = if (this.actualPos == i) Color.RED else Color.BLACK
             ga.fill(actualSquare)
         }
 

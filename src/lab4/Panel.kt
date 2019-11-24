@@ -46,22 +46,22 @@ class Panel(stepTime: Int, numElems: Int) : JFrame("Visualization") {
         startButton.addActionListener {
 
             val t1 = Thread {
-                panel1.sortAsync(InsertionSort(panel1Elems))
+                InsertionSort(panel1Elems).run(panel1::doRepaint)
             }
             t1.start()
 
             val t2 = Thread {
-                panel2.sortAsync(BubbleSort(panel2Elems))
+                BubbleSort(panel2Elems).run(panel2::doRepaint)
             }
             t2.start()
 
             val t3 = Thread {
-                panel3.sortAsync(SelectionSort(panel3Elems))
+                SelectionSort(panel3Elems).run(panel3::doRepaint)
             }
             t3.start()
 
             val t4 = Thread {
-                panel4.sortAsync(MergeSort(panel4Elems))
+                MergeSort(panel4Elems).run(panel4::doRepaint)
             }
             t4.start()
 

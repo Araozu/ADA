@@ -13,7 +13,7 @@ class GPanel(private val elems: Array<Int>, val stepTime: Int) : JPanel() {
     private var widthRatio = this.width / elems.size.toDouble()
     private var actualPos = 0;
 
-    private fun doRepaint(actualPos: Int) {
+    fun doRepaint(actualPos: Int) {
         this.actualPos = actualPos
         finaliseUpdate(stepTime.toLong())
     }
@@ -25,14 +25,6 @@ class GPanel(private val elems: Array<Int>, val stepTime: Int) : JPanel() {
         } catch (ex: InterruptedException) {
             Thread.currentThread().interrupt()
         }
-    }
-
-    fun sortAsync(algo: SortAlgorithm) {
-
-        while (!algo.isSorted()) {
-            algo.run(::doRepaint)
-        }
-
     }
 
     private fun drawLines(ga: Graphics2D) {

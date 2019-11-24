@@ -2,33 +2,27 @@ package lab4
 
 class SelectionSort(override val elems: Array<Int>) : SortAlgorithm {
 
-    private var actualIter = 0
-    private var actualPos = actualIter + 1
-    private var minimumPos = actualIter
+    override fun run(doRepaint: (Int) -> Unit) {
 
-    override fun step(doRepaint: () -> Unit) {
+        for (i in 0 until elems.size - 1) {
 
-        if (elems[actualPos] < elems[minimumPos]) {
-            minimumPos = actualPos
-        }
+            var index = i
 
-        if (actualPos == elems.size - 1) {
-            if (actualIter != minimumPos) {
-                doRepaint()
-                val temp = elems[minimumPos]
-                elems[minimumPos] = elems[actualIter]
-                elems[actualIter] = temp
+            for (j in i + 1 until elems.size) {
+
+                if (elems[j] < elems[index]) {
+                    index = j //searching for lowest index
+                }
+                doRepaint(j)
+
             }
 
-            actualIter++
-            actualPos = actualIter + 1
-            minimumPos = actualIter
-        } else {
-            actualPos++
+            val smallerNumber: Int = elems[index]
+            elems[index] = elems[i]
+            elems[i] = smallerNumber
+
         }
 
     }
-
-    override fun isSorted() = actualIter == elems.size - 1
 
 }

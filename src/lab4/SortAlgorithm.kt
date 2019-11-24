@@ -4,7 +4,7 @@ interface SortAlgorithm {
 
     val elems: Array<Int>
 
-    fun step(swap: (Int, Int) -> Unit)
+    fun step(doRepaint: () -> Unit)
 
     fun isSorted(): Boolean
 

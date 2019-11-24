@@ -5,12 +5,12 @@ class BubbleSort(override val elems: Array<Int>) : SortAlgorithm {
     private var posLoop1 = elems.size - 1
     private var posLoop2 = 1
 
-    override fun step(swap: (Int, Int) -> Unit) {
+    override fun step(doRepaint: () -> Unit) {
         assert(posLoop1 != 0)
 
         if (elems[posLoop2 - 1] > elems[posLoop2]) {
 
-            swap(posLoop2, posLoop2 - 1)
+            doRepaint()
             val temp = elems[posLoop2 - 1]
             elems[posLoop2 - 1] = elems[posLoop2]
             elems[posLoop2] = temp

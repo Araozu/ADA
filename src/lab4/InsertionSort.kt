@@ -5,11 +5,11 @@ class InsertionSort(override val elems: Array<Int>) : SortAlgorithm {
     var actualIter = 1
     var posActual = 1
 
-    override fun step(swap: (Int, Int) -> Unit) {
+    override fun step(doRepaint: () -> Unit) {
 
         if (elems[posActual - 1] > elems[posActual]) {
 
-            swap(posActual, posActual - 1)
+            doRepaint()
             val temp = elems[posActual - 1]
             elems[posActual - 1] = elems[posActual]
             elems[posActual] = temp

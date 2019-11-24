@@ -6,7 +6,7 @@ class SelectionSort(override val elems: Array<Int>) : SortAlgorithm {
     private var actualPos = actualIter + 1
     private var minimumPos = actualIter
 
-    override fun step(swap: (Int, Int) -> Unit) {
+    override fun step(doRepaint: () -> Unit) {
 
         if (elems[actualPos] < elems[minimumPos]) {
             minimumPos = actualPos
@@ -14,7 +14,7 @@ class SelectionSort(override val elems: Array<Int>) : SortAlgorithm {
 
         if (actualPos == elems.size - 1) {
             if (actualIter != minimumPos) {
-                swap(actualIter, minimumPos);
+                doRepaint()
                 val temp = elems[minimumPos]
                 elems[minimumPos] = elems[actualIter]
                 elems[actualIter] = temp

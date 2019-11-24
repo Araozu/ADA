@@ -6,6 +6,4 @@ interface SortAlgorithm {
 
     fun run(doRepaint: (Int) -> Unit)
 
-    fun isSorted(): Boolean
-
 }

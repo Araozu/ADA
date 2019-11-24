@@ -5,41 +5,11 @@ import java.awt.GridLayout
 import javax.swing.BorderFactory
 import javax.swing.JButton
 import javax.swing.JFrame
+import javax.swing.SwingWorker
 
 class Panel(stepTime: Int, numElems: Int) : JFrame("Visualization") {
 
-    private val elems = Array(numElems) { (Math.random() * 58).toInt() + 2}
-
-    private fun bubbleSort(elems: Array<Int>, swap: (Int, Int) -> Unit) {
-        println("Estoy en el thread ${Thread.currentThread().name}")
-        val size = elems.size
-
-        for (i in 0 until size) {
-            var doSwap = false
-            for (j in 1 until size) {
-                // Thread.sleep(1000L)
-                if (elems[j - 1] > elems[j]) {
-
-                    swap(j, j - 1)
-                    val temp = elems[j - 1]
-                    elems[j - 1] = elems[j]
-                    elems[j] = temp
-                    doSwap = true
-
-                }
-            }
-
-            if (!doSwap) {
-                break
-            }
-
-        }
-
-        for (elem in elems) {
-            print("$elem ")
-        }
-
-    }
+    private val elems = Array(numElems) { it + 1 } // { (Math.random() * 58).toInt() + 2}
 
     init {
         this.layout = GridLayout(0, 2, 20, 20)
@@ -71,17 +41,40 @@ class Panel(stepTime: Int, numElems: Int) : JFrame("Visualization") {
         val startButton = JButton("Run")
         startButton.addActionListener {
 
-            panel1.sortAsync(InsertionSort(panel1Elems))
-            panel2.sortAsync(BubbleSort(panel2Elems))
-            panel3.sortAsync(SelectionSort(panel3Elems))
-            // panel4.sortAsync(MergeSort2(panel4Elems))
+            val t1 = Thread {
+                panel1.shuffleArray()
+                panel1.finaliseUpdate(1000)
+                panel1.sortAsync(InsertionSort(panel1Elems))
+            }
+            t1.start()
+
+            val t2 = Thread {
+                panel2.shuffleArray()
+                panel2.finaliseUpdate(1000)
+                panel2.sortAsync(BubbleSort(panel2Elems))
+            }
+            t2.start()
+
+            val t3 = Thread {
+                panel3.shuffleArray()
+                panel3.finaliseUpdate(1000)
+                panel3.sortAsync(SelectionSort(panel3Elems))
+            }
+            t3.start()
+
+            val t4 = Thread {
+                panel4.shuffleArray()
+                panel4.finaliseUpdate(1000)
+                panel4.sortAsync(MergeSort2(panel4Elems))
+            }
+            t4.start()
 
         }
 
         add(panel1)
         add(panel2)
         add(panel3)
-        // add(panel4)
+        add(panel4)
         add(startButton)
 
     }

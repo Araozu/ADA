@@ -42,6 +42,11 @@ class Panel(stepTime: Int, numElems: Int) : JFrame("Visualization") {
         panel4.border = BorderFactory.createLineBorder(Color.GRAY)
         panel4.background = Color.WHITE
 
+        val panel5Elems = elems.copyOf()
+        val panel5 = GPanel(panel5Elems, stepTime)
+        panel4.border = BorderFactory.createLineBorder(Color.GRAY)
+        panel4.background = Color.WHITE
+
         val startButton = JButton("Run")
         startButton.addActionListener {
 
@@ -65,12 +70,18 @@ class Panel(stepTime: Int, numElems: Int) : JFrame("Visualization") {
             }
             t4.start()
 
+            val t5 = Thread {
+                HeapSort(panel5Elems).run(panel5::doRepaint)
+            }
+            t5.start()
+
         }
 
         add(panel1)
         add(panel2)
         add(panel3)
         add(panel4)
+        add(panel5)
         add(startButton)
 
     }

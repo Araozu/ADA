@@ -4,14 +4,13 @@ import java.awt.Color
 import java.awt.Graphics
 import java.awt.Graphics2D
 import java.awt.geom.Rectangle2D
-import java.util.*
 import javax.swing.JPanel
 
-class GPanel(private val elems: Array<Int>, val stepTime: Int) : JPanel() {
+class GPanel(private val elems: Array<Int>, private val stepTime: Int) : JPanel() {
 
     private var heightRatio = this.height / elems.size.toDouble()
     private var widthRatio = this.width / elems.size.toDouble()
-    private var actualPos = 0;
+    private var actualPos = 0
 
     fun doRepaint(actualPos: Int) {
         this.actualPos = actualPos

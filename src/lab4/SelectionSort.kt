@@ -23,6 +23,9 @@ class SelectionSort(override val elems: Array<Int>) : SortAlgorithm {
 
         }
 
+        // Elimina la linea roja que queda al final.
+        doRepaint(-1)
+
     }
 
 }

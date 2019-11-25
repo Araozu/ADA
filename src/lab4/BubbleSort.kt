@@ -2,30 +2,28 @@ package lab4
 
 class BubbleSort(override val elems: Array<Int>) : SortAlgorithm {
 
-    private var posLoop1 = elems.size - 1
-    private var posLoop2 = 1
+    override fun run(doRepaint: (Int) -> Unit) {
 
-    override fun step(doRepaint: () -> Unit) {
-        assert(posLoop1 != 0)
+        val n: Int = elems.size
 
-        if (elems[posLoop2 - 1] > elems[posLoop2]) {
+        for (i in 0 until n) {
 
-            doRepaint()
-            val temp = elems[posLoop2 - 1]
-            elems[posLoop2 - 1] = elems[posLoop2]
-            elems[posLoop2] = temp
+            for (j in 1 until n - i) {
+
+                if (elems[j - 1] > elems[j]) {
+                    val temp = elems[j - 1]
+                    elems[j - 1] = elems[j]
+                    elems[j] = temp
+                }
+                doRepaint(j)
+
+            }
 
         }
 
-        if (posLoop2 == posLoop1) {
-            posLoop1--
-            posLoop2 = 1
-        } else {
-            posLoop2++
-        }
+        // Elimina la linea roja que queda al final.
+        doRepaint(-1)
 
     }
-
-    override fun isSorted() = posLoop1 == 0
 
 }

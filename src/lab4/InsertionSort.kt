@@ -2,32 +2,27 @@ package lab4
 
 class InsertionSort(override val elems: Array<Int>) : SortAlgorithm {
 
-    var actualIter = 1
-    var posActual = 1
+    override fun run(doRepaint: (Int) -> Unit) {
 
-    override fun step(doRepaint: () -> Unit) {
+        for (actualIter in 1 until elems.size) {
 
-        if (elems[posActual - 1] > elems[posActual]) {
+            var posActual = actualIter
 
-            doRepaint()
-            val temp = elems[posActual - 1]
-            elems[posActual - 1] = elems[posActual]
-            elems[posActual] = temp
+            while (posActual > 0 && elems[posActual - 1] > elems[posActual]) {
 
-            if (posActual == 1) {
-                actualIter++
-                posActual = actualIter
-            } else {
+                val temp = elems[posActual - 1]
+                elems[posActual - 1] = elems[posActual]
+                elems[posActual] = temp
+
+                doRepaint(posActual - 1)
                 posActual--
             }
 
-        } else {
-            actualIter++
-            posActual = actualIter
         }
 
-    }
+        // Elimina la linea roja que queda al final.
+        doRepaint(-1)
 
-    override fun isSorted() = actualIter == elems.size
+    }
 
 }

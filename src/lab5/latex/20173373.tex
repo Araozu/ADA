@@ -129,8 +129,6 @@ diferentes elementos (aleatorio, ordenado, inverso, únicos).
 
 \begin{lstlisting}
 
-
-
 public abstract class BinaryHeap<T extends Comparable<T>> {
 
     private final T[] arr;
@@ -204,7 +202,105 @@ public abstract class BinaryHeap<T extends Comparable<T>> {
 
 \end{lstlisting}
 
+\begin{lstlisting}
 
+public class MaxBinaryHeap<T extends Comparable<T>> extends BinaryHeap<T> {
+
+
+    public MaxBinaryHeap(T[] arr) {
+        super(arr);
+    }
+
+    @Override
+    boolean compare(T a, T b) {
+        return a.compareTo(b) > 0;
+    }
+
+}
+
+\end{lstlisting}
+
+\begin{lstlisting}
+
+public class MinBinaryHeap<T extends Comparable<T>> extends BinaryHeap<T> {
+
+    public MinBinaryHeap(T[] arr) {
+        super(arr);
+    }
+
+    @Override
+        boolean compare(T a, T b) {
+        return a.compareTo(b) < 0;
+    }
+
+}
+
+\end{lstlisting}
+
+
+\section{Comparaciones}\label{sec:comparaciones}
+
+\begin{figure}
+    \includegraphics[width=\linewidth]{heap_inverse.png}
+    \caption{Heapsort con datos invertidos.}
+\end{figure}
+
+\begin{figure}
+    \includegraphics[width=\linewidth]{heap_ordered.png}
+    \caption{Heapsort con datos ordenados.}
+\end{figure}
+
+\begin{figure}
+    \includegraphics[width=\linewidth]{heap_unique.png}
+    \caption{Heapsort con datos úticos.}
+\end{figure}
+
+\begin{figure}
+    \includegraphics[width=\linewidth]{heap_random.png}
+    \caption{Heapsort con datos aleatorios.}
+\end{figure}
+
+
+\begin{figure}
+    \includegraphics[width=\linewidth]{merge_inverse.png}
+    \caption{Mergesort con datos invertidos.}
+\end{figure}
+
+\begin{figure}
+    \includegraphics[width=\linewidth]{merge_ordered.png}
+    \caption{Mergesort con datos ordenados.}
+\end{figure}
+
+\begin{figure}
+    \includegraphics[width=\linewidth]{merge_unique.png}
+    \caption{Mergesort con datos úticos.}
+\end{figure}
+
+\begin{figure}
+    \includegraphics[width=\linewidth]{merge_random.png}
+    \caption{Mergesort con datos aleatorios.}
+\end{figure}
+
+
+\begin{figure}
+    \includegraphics[width=\linewidth]{quick_inverse.png}
+    \caption{Quicksort con datos invertidos.}
+\end{figure}
+
+\begin{figure}
+    \includegraphics[width=\linewidth]{quick_ordered.png}
+    \caption{Quicksort con datos ordenados.}
+\end{figure}
+
+\begin{figure}
+    \includegraphics[width=\linewidth]{quick_unique.png}
+    \caption{Quicksort con datos úticos.}
+\end{figure}
+
+\begin{figure}
+    \includegraphics[width=\linewidth]{quick_random.png}
+    \caption{Quicksort con datos aleatorios.}
+\end{figure}
 
 % \begin{figure}
 %     \includegraphics[width=\linewidth]{Resultado.png}

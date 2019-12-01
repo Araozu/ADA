@@ -2,3 +2,8 @@
 lib
 out
 
+*.aux
+*.bbl
+*.blg
+*.log
+*.gz

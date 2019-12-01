@@ -1,6 +1,11 @@
 package lab5;
 
-public abstract class BinaryHeap<T extends Comparable<T>> {
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
+import lab4.SortAlgorithm;
+import lab4.java.Swap;
+
+public abstract class BinaryHeap<T extends Comparable<T>> implements SortAlgorithm {
 
     private final T[] arr;
 
@@ -55,6 +60,16 @@ public abstract class BinaryHeap<T extends Comparable<T>> {
             swap(0, max - 1);
             this.siftDown(0, max - 1);
         }
+    }
+
+    @Override
+    public Integer[] getElems() {
+        return new Integer[0];
+    }
+
+    @Override
+    public void run(Function1<? super Integer, Unit> doRepaint) {
+        sort();
     }
 
     @Override

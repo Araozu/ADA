@@ -25,32 +25,13 @@ public class Board {
         return board;
     }
 
-    // board dimension n (?)
-    public int dimension() {
-        return 0;
+    public boolean hasGoalBoard() { return goalBoard != null; }
+
+    public Board getGoalBoard() {
+        return goalBoard;
     }
 
-    //number of blocks out of place (?)
-    public int hamming() {
-        return 0;
-    }
-
-    // sum of manhattan distances between blocks and goal
-    public int manhattan() {
-        if (goalBoard == null) return Integer.MAX_VALUE;
-
-        int sum = 0;
-        for (int i = 0; i < board.length; i++) {
-            int[] row = board[i];
-            for (int j = 0; j < row.length; j++) {
-                sum += goalBoard.movesFrom(row[j], i, j);
-            }
-        }
-
-        return sum;
-    }
-
-    public int movesFrom(int elem, int i, int j) {
+    private int movesFrom(int elem, int i, int j) {
         int actualI = 0;
         int actualJ = 0;
 
@@ -67,15 +48,27 @@ public class Board {
         return Math.abs(i - actualI) + Math.abs(j - actualJ);
     }
 
+
+    // sum of manhattan distances between blocks and goal
+    public int manhattan() {
+        if (goalBoard == null) return Integer.MAX_VALUE;
+
+        int sum = 0;
+        for (int i = 0; i < board.length; i++) {
+            int[] row = board[i];
+            for (int j = 0; j < row.length; j++) {
+                sum += goalBoard.movesFrom(row[j], i, j);
+            }
+        }
+
+        return sum;
+    }
+
+
     // is this board the goal board
     public boolean isGoal() {
         if (goalBoard == null) throw new NullPointerException("There is no goal board...");
         return this.equals(goalBoard);
-    }
-
-    // a board that is obtained by exchanging any pair of blocks )??
-    public Board twin() {
-        return null;
     }
 
     // does this board equaly
@@ -167,7 +160,16 @@ public class Board {
 
     @Override
     public String toString() {
-        return super.toString();
+        String res = "";
+        for (int[] row: board) {
+            res += "[";
+            for (int value: row) {
+                res += " " + value + " ";
+            }
+            res += "]\n";
+        }
+
+        return res;
     }
 
 }

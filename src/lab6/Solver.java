@@ -36,11 +36,11 @@ public class Solver {
             return snode;
         }
 
-        public boolean hasGrandFather() {
+        public boolean hasParent() {
             return snode != null && snode.snode != null;
         }
 
-        public Board getGrandFather() {
+        public Board getParent() {
             return snode.board;
         }
 
@@ -96,8 +96,8 @@ public class Solver {
                 actualNode = minpq.removeHead();
                 ArrayList<Board> possibleMoves = actualNode.board.neighbors();
 
-                if (actualNode.hasGrandFather()) {
-                    Board grandFather = actualNode.getGrandFather();
+                if (actualNode.hasParent()) {
+                    Board grandFather = actualNode.getParent();
 
                     for (int i = 0; i < possibleMoves.size(); i++) {
                         if (possibleMoves.get(i).equals(grandFather)) {

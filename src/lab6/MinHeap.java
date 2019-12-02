@@ -77,6 +77,18 @@ public class MinHeap<T extends Comparable<T>> {
         }
     }
 
+    public T removeHead() {
+        T result = arr.get(0);
+        arr.remove(0);
+
+        if (arr.size() > 0) {
+            swap(0, arr.size() - 1);
+            this.siftDown(0, arr.size() - 1);
+        }
+
+        return result;
+    }
+
     void insert(T elem) {
         arr.add(elem);
         heapify();

@@ -1,4 +1,4 @@
-data2analyze <- read.csv('/home/araozu/Universidad/2019-2/ADA-java/src/lab5/latex/heap_inverse.csv', TRUE)
+data2analyze <- read.csv('/home/araozu/Universidad/2019-2/ADA-java/src/lab5/latex/quick_unique.csv', TRUE)
 library(ggplot2)
 
 ggplot() +

@@ -3,7 +3,6 @@ package lab5;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 import lab4.SortAlgorithm;
-import lab4.java.Swap;
 
 public abstract class BinaryHeap<T extends Comparable<T>> implements SortAlgorithm {
 

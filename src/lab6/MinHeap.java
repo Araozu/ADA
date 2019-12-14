@@ -14,6 +14,8 @@ public class MinHeap<T extends Comparable<T>> {
         this(new ArrayList<>());
     }
 
+    public int size() { return arr.size(); }
+
     private void swap(int pos1, int pos2) {
         T buffer = arr.get(pos1);
         arr.set(pos1, arr.get(pos2));
@@ -89,7 +91,7 @@ public class MinHeap<T extends Comparable<T>> {
         return result;
     }
 
-    void insert(T elem) {
+    public void insert(T elem) {
         arr.add(elem);
         heapify();
     }

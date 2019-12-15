@@ -3,38 +3,28 @@ package lab6;
 public class SearchNode implements Comparable<SearchNode> {
     final Board board;
     final int moves;
-    final SearchNode snode;
+    final SearchNode previous;
     final int priority;
+    final int manhattan;
 
     public SearchNode(Board board, SearchNode predecessor) {
         this.board = board;
 
-        if (predecessor != null) moves = predecessor.getMoves() + 1;
+        if (predecessor != null) moves = predecessor.moves + 1;
         else moves = 0;
 
-        snode = predecessor;
-        priority = moves + board.getManhttan();
-        // priority = moves + board.calculateHamming();
-    }
+        previous = predecessor;
+        manhattan = board.getManhattan();
 
-    public int getMoves() {
-        return moves;
-    }
-
-    public Board getBoard() {
-        return board;
-    }
-
-    public SearchNode getpredecessor() {
-        return snode;
+        priority = moves + manhattan;
     }
 
     public boolean hasParent() {
-        return snode != null && snode.snode != null;
+        return previous != null;
     }
 
     public Board getParent() {
-        return snode.board;
+        return previous.board;
     }
 
     public int getpriority() {
@@ -42,7 +32,12 @@ public class SearchNode implements Comparable<SearchNode> {
     }
 
     @Override
-    public int compareTo(SearchNode sn) {
+    public int compareTo(SearchNode that) {
+
+        if(this.priority == that.priority) return 0;
+        return (this.priority > that.priority) ? 1 :  -1;
+
+        /*/
         if (priority > sn.getpriority()) {
             return 1;
         }
@@ -54,6 +49,7 @@ public class SearchNode implements Comparable<SearchNode> {
             return Integer.compare(this.priority - this.moves, sn.priority - sn.moves);
         }
         return 0;
+        // */
     }
 
 }

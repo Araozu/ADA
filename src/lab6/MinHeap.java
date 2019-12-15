@@ -79,14 +79,11 @@ public class MinHeap<T extends Comparable<T>> {
         }
     }
 
-    public T removeHead() {
+    public T delMin() {
         T result = arr.get(0);
-        arr.remove(0);
-
-        if (arr.size() > 0) {
-            swap(0, arr.size() - 1);
-            this.siftDown(0, arr.size() - 1);
-        }
+        swap(0, arr.size() - 1);
+        arr.remove(arr.size() - 1);
+        this.siftDown(0, arr.size() - 1);
 
         return result;
     }

@@ -2,6 +2,7 @@ package lab6;
 
 import java.util.Stack;
 
+
 public class Solver {
     private boolean solvable;
     private Stack<Board> steps;
@@ -9,8 +10,8 @@ public class Solver {
 
 
     public Solver(Board initial) {
-        MinHeap<SearchNode> minpq = new MinHeap<>();
-        MinHeap<SearchNode> twinpq = new MinHeap<>();
+        MinPQ<SearchNode> minpq = new MinPQ<>();
+        MinPQ<SearchNode> twinpq = new MinPQ<>();
 
         if (initial == null)
             throw new IllegalArgumentException("Null argument");
@@ -25,33 +26,58 @@ public class Solver {
         } else {
 
             SearchNode actualNode = new SearchNode(initial, null);
-            SearchNode actualTwinNode = new SearchNode(initial.twin(), null);
+            SearchNode actualTwinNode = new SearchNode(initial.twin2(), null);
 
             minpq.insert(actualNode);
             twinpq.insert(actualTwinNode);
 
-            while (!actualNode.board.isGoal() && !actualTwinNode.board.isGoal() && minpq.size() > 0 && twinpq.size() > 0) {
+            // O(8n²)
+            while (!actualNode.board.isGoal() && !actualTwinNode.board.isGoal()) {
 
-                actualNode = minpq.removeHead();
-                actualTwinNode = twinpq.removeHead();
+                actualNode = minpq.delMin();
+                actualTwinNode = twinpq.delMin();
 
-                // System.out.println("Actual node");
+                /*/
+                int size = minpq.size();
+                System.out.println(size +
+                        " Pr (" + actualNode.priority + ") - " +
+                        "Mov (" + actualNode.moves + ") - Man (" + actualNode.manhattan + ")");
+                //*/
+
                 // System.out.println(actualNode.board);
-                System.out.println(actualNode.priority);
+
+                /*/
+                System.out.println("// ->" + size2 +
+                        " Pr (" + actualTwinNode.priority + ") - " +
+                        "Mov (" + actualTwinNode.moves + ") - Man (" + actualTwinNode.manhattan + ")");
+                //*/
 
 
+                // O(4n²)
                 for (Board b : actualNode.board.neighbors()) {
+
+                    //
                     if (actualNode.hasParent()) {
                         if (!b.equals(actualNode.getParent()))
                             minpq.insert(new SearchNode(b, actualNode));
                     } else {
                         minpq.insert(new SearchNode(b, actualNode));
                     }
+                    // */
                 }
 
+                // O(4n²)
                 for (Board b : actualTwinNode.board.neighbors()) {
-                    if (!b.equals(actualTwinNode.board))
+
+
+                    //
+                    if (actualTwinNode.hasParent()) {
+                        if (!b.equals(actualTwinNode.getParent()))
+                            twinpq.insert(new SearchNode(b, actualTwinNode));
+                    } else {
                         twinpq.insert(new SearchNode(b, actualTwinNode));
+                    }
+                    //*/
                 }
 
             }
@@ -70,10 +96,10 @@ public class Solver {
         Stack<Board> stack = new Stack<>();
 
         SearchNode actualNode = finalNode;
-        while (actualNode.snode != null) {
+        while (actualNode.previous != null) {
             this.numberOfMoves++;
             stack.push(actualNode.board);
-            actualNode = actualNode.snode;
+            actualNode = actualNode.previous;
         }
         stack.push(actualNode.board);
 

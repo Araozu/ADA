@@ -8,26 +8,29 @@ public class Board {
     private final int manhattan;
     private final int size;
 
+    private int zeroI = 0;
+    private int zeroJ = 0;
 
-    public Board(int[][] board, int size) {
+    // O(2n²)
+    public Board(int[][] board) {
         if (board == null) {
             throw new IllegalArgumentException("The board is null.");
         }
 
         this.board = board;
-        this.size = size;
+        this.size = board.length;
 
+        this.findZeroPos();
         this.manhattan = manhattan();
     }
 
+    // O(1)
     private int[] generateRandomCoordinate() {
         return new int[]{(int) (Math.random() * board.length), (int) (Math.random() * board[0].length)};
     }
 
-    public Board twin() {
-        int zeroI = 0;
-        int zeroJ = 0;
-
+    // O(n²)
+    public void findZeroPos() {
         loop:
         for (; zeroI < board.length; zeroI++) {
             int[] row = board[zeroI];
@@ -38,28 +41,16 @@ public class Board {
             }
             zeroJ = 0;
         }
+    }
 
-        int pos1X = zeroI;
-        int pos1Y = zeroJ;
-        int pos2X = zeroI;
-        int pos2Y = zeroJ;
 
-        /*
-        if (zeroI > 0) {
-            pos1X = zeroI - 1;
-            pos2X = zeroI - 1;
-        } else {
-            pos1X = zeroI + 1;
-            pos2X = zeroI + 1;
-        }
+    // O(n²)
+    public Board twin2() {
 
-        pos1Y = zeroJ;
-        if (zeroJ < 0) {
-            pos2Y = zeroJ + 1;
-        } else {
-            pos2Y = zeroJ - 1;
-        }
-        */
+        int pos1X;
+        int pos1Y;
+        int pos2X;
+        int pos2Y;
 
         int[] c;
         do {
@@ -85,10 +76,25 @@ public class Board {
 
         } while (pos1X == zeroI && pos1Y == zeroJ && pos2X == zeroI && pos2Y == zeroJ);
 
-        System.out.println("Twin swaps from " + pos1X + "," + pos1Y + " to " + pos2X + "," + pos2Y);
-
         int[][] copy = swapAndReturn(pos1X, pos1Y, pos2X, pos2Y);
-        return new Board(copy, this.size);
+        return new Board(copy);
+    }
+    // */
+
+
+    public Board twin() {
+        int[][] twin = cloneBoard();
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (board[i][j] != 0 && board[i][j + 1] != 0 && j < (size - 1)) {
+                    int swap = twin[i][j];
+                    twin[i][j] = twin[i][j + 1];
+                    twin[i][j + 1] = swap;
+                    return new Board(twin);
+                }
+            }
+        }
+        return new Board(twin);
     }
 
 
@@ -97,7 +103,7 @@ public class Board {
     }
 
 
-    public int getManhttan() {
+    public int getManhattan() {
         return this.manhattan;
     }
 
@@ -137,7 +143,8 @@ public class Board {
     }
     // */
 
-    public int manhattan() {
+    // O(n²)
+    private int manhattan() {
         int arrayPosition;
         int tile;
         int manhattan = 0;
@@ -178,9 +185,27 @@ public class Board {
         return sum;
     }
     */
+    public int hamming() {
+        int arrayPosition;
+        int tile;
+        int displaced = 0;
+
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                tile = board[i][j];
+                if (tile == 0)
+                    continue;
+                arrayPosition = 1 + j + (i * this.size);
+
+                if (tile != arrayPosition)
+                    displaced++;
+            }
+        }
+        return displaced;
+    }
 
 
-    // is this board the goal board
+    // O(n²)
     public boolean isGoal() {
         int arrayPosition;
         int tile;
@@ -198,6 +223,7 @@ public class Board {
         return true;
     }
 
+    // O(n²)
     private int[][] cloneBoard() {
         int[][] clone = new int[board.length][board[0].length];
 
@@ -209,6 +235,7 @@ public class Board {
         return clone;
     }
 
+    // O(n²)
     private int[][] swapAndReturn(int i1, int j1, int i2, int j2) {
         int[][] newBoard = cloneBoard();
 
@@ -219,49 +246,35 @@ public class Board {
         return newBoard;
     }
 
-    // all possible board generated from parent
+    // O(4n²)
     public ArrayList<Board> neighbors() {
         ArrayList<Board> res = new ArrayList<>();
 
-        int zeroI = 0;
-        int zeroJ = 0;
-
-        loop:
-        for (; zeroI < board.length; zeroI++) {
-            int[] row = board[zeroI];
-            for (; zeroJ < row.length; zeroJ++) {
-                if (row[zeroJ] == 0) {
-                    break loop;
-                }
-            }
-            zeroJ = 0;
-        }
-
         if (zeroI > 0) {
             int[][] copy = swapAndReturn(zeroI, zeroJ, zeroI - 1, zeroJ);
-            res.add(new Board(copy, this.size));
+            res.add(new Board(copy));
         }
 
         if (zeroI < board.length - 1) {
             int[][] copy = swapAndReturn(zeroI, zeroJ, zeroI + 1, zeroJ);
-            res.add(new Board(copy, this.size));
+            res.add(new Board(copy));
         }
 
         if (zeroJ > 0) {
             int[][] copy = swapAndReturn(zeroI, zeroJ, zeroI, zeroJ - 1);
-            res.add(new Board(copy, this.size));
+            res.add(new Board(copy));
         }
 
         if (zeroJ < board[0].length - 1) {
             int[][] copy = swapAndReturn(zeroI, zeroJ, zeroI, zeroJ + 1);
-            res.add(new Board(copy, this.size));
+            res.add(new Board(copy));
         }
 
         return res;
     }
 
 
-    // does this board equaly
+    // O(n²)
     @Override
     public boolean equals(Object y) {
         if (y == null) return false;
@@ -288,6 +301,7 @@ public class Board {
 
     }
 
+    // O(n²)
     @Override
     public String toString() {
         StringBuilder res = new StringBuilder();
@@ -303,3 +317,4 @@ public class Board {
     }
 
 }
+

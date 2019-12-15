@@ -1,10 +1,39 @@
 package lab6;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 import java.util.Stack;
 
 public class Main {
 
-    public static void main(String[] args) {
+    private static int[][] readFromFile(String fileName) throws FileNotFoundException {
+
+        File file = new File(fileName);
+        Scanner sc = new Scanner(file);
+
+        int size = Integer.parseInt(sc.nextLine());
+
+        int[][] result = new int[size][size];
+
+        for (int i = 0; i < size; i++) {
+
+            String line = sc.nextLine();
+            String[] numbers = line.split(" ");
+            int actualJ = 0;
+            for (String number : numbers) {
+                if (number.equals("")) continue;
+
+                result[i][actualJ] = Integer.parseInt(number);
+                actualJ++;
+            }
+
+        }
+
+        return result;
+    }
+
+    public static void main(String[] args) throws FileNotFoundException {
 
         /*
         ArrayList<Integer> nums = new ArrayList<>();
@@ -30,13 +59,14 @@ public class Main {
         // Board board1 = new Board(new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 0}});
         // Board board2 = new Board(new int[][]{{1, 2, 3}, {4, 5, 6}, {8, 7, 0}}, board1);
 
-        //
-        lab6.Board board = new lab6.Board(new int[][]{
+        int[][] boardRaw = readFromFile("data.txt");
+        /*/
+        Board board = new lab6.Board(new int[][]{
                 {13,  1, 10,  4},
                 {8, 12,  6,  3},
                 {15,  9,  5, 14},
                 {0,  7,  2, 11},
-        }, 4);
+        });
         // */
 
         /*/
@@ -50,12 +80,12 @@ public class Main {
                 {8, 6, 3}}, targetBoard);
         // */
 
-        lab6.Solver s = new Solver(board);
+        Solver s = new Solver(new Board(boardRaw));
 
         if (s.isSolvable()) {
             Stack<Board> solution = s.solution();
 
-            while(solution.size() > 0) {
+            while (solution.size() > 0) {
                 System.out.println(solution.pop());
             }
             System.out.println("There were " + s.numberOfMoves + " steps.");
